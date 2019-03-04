@@ -4,4 +4,4 @@ const construct = (args) => {
   return new LoanCalculator(args)
 };
 
-export { LoanCalculator }
+export default construct

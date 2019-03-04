@@ -1,13 +1,13 @@
 {
   "name": "qred-loan-calculator",
-  "version": "1.0.2",
+  "version": "1.0.10",
   "description": "lib from Qred's loan estimates",
-  "main": "lib/webpack-library-starter.js",
+  "main": "lib/qred-loan-calculator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --env dev && webpack --env build && npm run test",
     "dev": "webpack --progress --colors --watch --env dev",
-    "repl": "node -i -e \"$(< ./lib/webpack-library-starter.js)\""
+    "repl": "node -i -e \"$(< ./lib/qred-loan-calculator.js)\""
   },
   "keywords": [
     "qred",
