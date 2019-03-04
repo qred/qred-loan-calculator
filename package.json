@@ -1,6 +1,6 @@
 {
   "name": "qred-loan-calculator",
-  "version": "1.0.10",
+  "version": "1.0.14",
   "description": "lib from Qred's loan estimates",
   "main": "lib/qred-loan-calculator.js",
   "scripts": {

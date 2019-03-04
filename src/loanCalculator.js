@@ -8,7 +8,7 @@ const defaultProperties = {
 }
 
 export default class LoanCalculator {
-  constructor(args) {
+  constructor(args = {}) {
     const { amount, termInMonths, market, firstMonthFree } = args
     const filteredArgs = {
       amount: amount || null,
@@ -49,14 +49,20 @@ export default class LoanCalculator {
       term -= 1
     }
 
-    return amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term
+    return {
+      amount: amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term,
+      currency: this.currency
+    }
   }
 
   get monthlyFee() {
     const { amount, termInMonths } = this.properties
     const totalToPay = this.totalToPay
 
-    return (totalToPay - amount) / termInMonths
+    return {
+      amount: (totalToPay.amount - amount) / termInMonths,
+      currency: this.currency
+    }
   }
 
   get monthlyAmortisation() {
@@ -66,7 +72,25 @@ export default class LoanCalculator {
   }
 
   get monthlyTotal() {
-    return this.monthlyAmortisation + this.monthlyFee
+    return {
+      amount: this.monthlyAmortisation + this.monthlyFee.amount,
+      currency: this.currency
+    }
+  }
+
+  get currency() {
+    const { market } = this.properties
+
+    switch(market) {
+      case 'fi':
+        return 'EUR'
+      case 'nl':
+        return 'EUR'
+      case 'dk':
+        return 'DKK'
+      default:
+        return 'SEK'
+    }
   }
 
   get getloanRange() {
@@ -74,13 +98,13 @@ export default class LoanCalculator {
 
     switch(market) {
       case 'fi':
-        return { min: 1000, max: 50000, currency: 'EUR' }
+        return { min: 1000, max: 50000, currency: this.currency }
       case 'nl':
-        return { min: 1000, max: 50000, currency: 'EUR' }
+        return { min: 1000, max: 50000, currency: this.currency }
       case 'dk':
-        return { min: 10000, max: 250000, currency: 'DKK' }
+        return { min: 10000, max: 250000, currency: this.currency }
       default:
-        return { min: 10000, max: 500000,  currency: 'SEK' }
+        return { min: 10000, max: 500000,  currency: this.currency }
     }
   }
 }
