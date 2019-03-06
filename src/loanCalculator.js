@@ -22,34 +22,60 @@ function omitBy(obj) {
   return {}
 }
 
+function formatMoney(value) {
+  return Number.parseFloat(value).toFixed(2)
+}
+
+function validate(value, field) {
+  if (value === undefined || value === null)
+    return null
+
+  switch (field) {
+    case 'amount':
+      // TODO: validate amount is between loanRange
+      if (Number(value) === value && value % 1 === 0) {
+        return value
+      } else {
+        return defaultProperties.amount
+      }
+    case 'termInMonths':
+      if ([6, 9, 12].includes(Number(value))) {
+        return value
+      } else {
+        return defaultProperties.termInMonths
+      }
+    case 'market':
+      if (['se', 'fi', 'dk', 'nl'].includes(value)) {
+        return value
+      } else {
+        return defaultProperties.market
+      }
+    case 'firstMonthFree':
+      return !!value
+  }
+}
+
 export default class LoanCalculator {
   constructor(args = {}) {
     const { amount, termInMonths, market, firstMonthFree } = args
-    // TODO: validate termInMonths is [6, 9 or 12] and is int otherwise 6
-    // TODO: validate amount is between loanRange and is int 
-    // TODO: if market !== se change default amount and is string
-    // TODO: validate market is [se, dk, fi or nl] otherwise throw error 
-
-    // TODO(luxury): Add format property (decimals, seperator etc)
 
     const filteredArgs = {
-      amount: amount || null,
-      termInMonths: termInMonths || null,
-      market: market || null,
-      firstMonthFree: firstMonthFree || null
+      amount: validate(amount, 'amount'),
+      termInMonths: validate(termInMonths, 'termInMonths'),
+      market: validate(market, 'market'),
+      firstMonthFree: validate(firstMonthFree, 'firstMonthFree')
     }
-    this.properties = Object.assign(defaultProperties, omitBy(filteredArgs))
+    this.properties = Object.assign({}, defaultProperties, omitBy(filteredArgs))
   }
 
   setAmount(amount) {
-    // TODO: validate amount is int and withinRange
-    // TODO: rounding on amount
-    this.properties.amount = amount
+    const validatedAmount = validate(amount, 'amount')
+    this.properties.amount = validatedAmount
   }
 
   setTermInMonths(termInMonths) {
-    // TODO: validate termInMonths
-    this.properties.termInMonths = termInMonths
+    const validatedTerm = validate(termInMonths, 'termInMonths')
+    this.properties.termInMonths = validatedTerm
   }
 
   get interest() {
@@ -83,8 +109,10 @@ export default class LoanCalculator {
     }
 
     // TODO: rounding on amount
+    const unformatted = amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term
+
     return {
-      amount: amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term,
+      amount: formatMoney(unformatted),
       currency: this.currency
     }
   }
@@ -95,7 +123,7 @@ export default class LoanCalculator {
 
     // TODO: rounding on amount
     return {
-      amount: (totalToPay.amount - amount) / termInMonths,
+      amount: formatMoney((totalToPay.amount - amount)) / termInMonths,
       currency: this.currency
     }
   }
@@ -103,14 +131,12 @@ export default class LoanCalculator {
   get monthlyAmortisation() {
     const { amount, termInMonths } = this.properties
 
-    // TODO: rounding on amount
-    return amount / termInMonths
+    return formatMoney((amount / termInMonths))
   }
 
   get monthlyTotal() {
-    // TODO: rounding on amount
     return {
-      amount: this.monthlyAmortisation + this.monthlyFee.amount,
+      amount: formatMoney((this.monthlyAmortisation + this.monthlyFee.amount)),
       currency: this.currency
     }
   }

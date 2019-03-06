@@ -21,7 +21,7 @@ import LoanCalculator from 'qred-loan-calculator'
 
 // Instantiate qred-loan-calculator
 // all properties are optional
-const loanCalculator = LoanCalculator({
+const loanCalculator = new LoanCalculator({
   amount: 50000, // validated by loanCalculator.loanRange , default: depending on market { se: 50000, dk: 50000, fi: 5000, nl: 5000}
   termInMonths: 6, // [6, 9 or 12], default: 6
   market: 'dk' // supported markets ['se', 'dk', 'fi', 'nl'], default: 'se',
@@ -48,7 +48,7 @@ const loanRange = loanCalculator.loanRange
 Qred's monthly fee to be added to the amortisation
 
 ```
-const loanCalculator = LoanCalculator()
+const loanCalculator = new LoanCalculator()
 const monthlyFee = loanCalculator.monthlyFee
 // monthlyFee = { amount: 50000, currency: 'SEK'}
 ```
@@ -57,7 +57,7 @@ const monthlyFee = loanCalculator.monthlyFee
 Qred's monthly fee + amortisation
 
 ```
-const loanCalculator = LoanCalculator()
+const loanCalculator = new LoanCalculator()
 const monthlyTotal = loanCalculator.monthlyTotal
 // monthlyTotal = { amount: 9333, currency: 'SEK'}
 ```
@@ -67,7 +67,7 @@ const monthlyTotal = loanCalculator.monthlyTotal
 The total cost of the loan repayment over the duration of the period
 
 ```
-const loanCalculator = LoanCalculator()
+const loanCalculator = new LoanCalculator()
 const totalToPay = loanCalculator.totalToPay
 // totalToPay = { amount: 56 000, currency: 'SEK'}
 ```
@@ -77,7 +77,38 @@ const totalToPay = loanCalculator.totalToPay
 The min and max loan values we offer per market
 
 ```
-const loanCalculator = LoanCalculator()
+const loanCalculator = new LoanCalculator()
 const loanRange = loanCalculator.loanRange
 // loanRange = { min: 10000, max: 500000, currency: 'SEK'}
+```
+
+## Methods
+
+### setTermInMonths
+
+Change the termInMonths of which fees are calculated
+
+```
+const loanCalculator = new LoanCalculator()
+loanCalculator.setTermInMonths(12) // 6, 9 or 12
+
+// loanCalculator.properties.termInMonths = 12
+
+```
+
+### setAmount
+
+Change the loan amount, of which fees are calculated
+
+```
+const loanCalculator = new LoanCalculator()
+const loanRange = loanCalculator.loanRange
+const value = 60000
+
+if (value >= loanRange.min && value <= loanRange.max) {
+  loanCalculator.setAmount(value)
+}
+
+// loanCalculator.properties.amount = 60000
+
 ```
