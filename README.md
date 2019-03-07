@@ -50,7 +50,7 @@ Qred's monthly fee to be added to the amortisation
 ```
 const loanCalculator = new LoanCalculator()
 const monthlyFee = loanCalculator.monthlyFee
-// monthlyFee = { amount: 50000, currency: 'SEK'}
+// monthlyFee = { value: 50000, currency: 'SEK'}
 ```
 
 ### monthlyTotal
@@ -59,7 +59,7 @@ Qred's monthly fee + amortisation
 ```
 const loanCalculator = new LoanCalculator()
 const monthlyTotal = loanCalculator.monthlyTotal
-// monthlyTotal = { amount: 9333, currency: 'SEK'}
+// monthlyTotal = { value: 9333, currency: 'SEK'}
 ```
 
 ### totalToPay
@@ -69,7 +69,7 @@ The total cost of the loan repayment over the duration of the period
 ```
 const loanCalculator = new LoanCalculator()
 const totalToPay = loanCalculator.totalToPay
-// totalToPay = { amount: 56 000, currency: 'SEK'}
+// totalToPay = { value: 56 000, currency: 'SEK'}
 ```
 
 ### loanRange
@@ -80,6 +80,14 @@ The min and max loan values we offer per market
 const loanCalculator = new LoanCalculator()
 const loanRange = loanCalculator.loanRange
 // loanRange = { min: 10000, max: 500000, currency: 'SEK'}
+```
+
+### monthlyAmortisation
+
+```
+const loanCalculator = new LoanCalculator()
+const monthlyAmortisation = loanCalculator.monthlyAmortisation
+// monthlyAmortisation = { value: 8333, currency: 'SEK' }
 ```
 
 ## Methods
@@ -110,5 +118,20 @@ if (value >= loanRange.min && value <= loanRange.max) {
 }
 
 // loanCalculator.properties.amount = 60000
+
+```
+
+### setMarket
+
+Change the market, this will change the currency and loan range.
+Valid markets : `['se', 'dk', 'fi', 'nl']`
+Default: `'se'`
+
+```
+const loanCalculator = new LoanCalculator()
+
+loanCalculator.setMarket('dk')
+
+// loanCalculator.properties.market = 'dk'
 
 ```

@@ -1,8 +1,20 @@
 const defaultProperties = {
-  amount: 50000,
   termInMonths: 6,
   market: 'se',
   firstMonthFree: false
+}
+
+function getMarketDefaultAmount(market) {
+  switch(market) {
+    case 'nl':
+      return 5000
+    case 'dk':
+      return 50000
+    case 'fi':
+      return 5000
+    default:
+      return 50000
+  }
 }
 
 function omitBy(obj) {
@@ -23,7 +35,7 @@ function omitBy(obj) {
 }
 
 function formatMoney(value) {
-  return Number.parseFloat(value).toFixed(2)
+  return parseFloat(Number.parseFloat(value).toFixed(2))
 }
 
 function validate(value, field) {
@@ -36,7 +48,7 @@ function validate(value, field) {
       if (Number(value) === value && value % 1 === 0) {
         return value
       } else {
-        return defaultProperties.amount
+        return null
       }
     case 'termInMonths':
       if ([6, 9, 12].includes(Number(value))) {
@@ -65,17 +77,33 @@ export default class LoanCalculator {
       market: validate(market, 'market'),
       firstMonthFree: validate(firstMonthFree, 'firstMonthFree')
     }
+
+    if (!filteredArgs.amount) {
+      filteredArgs.amount = getMarketDefaultAmount(filteredArgs.market)
+    }
+
     this.properties = Object.assign({}, defaultProperties, omitBy(filteredArgs))
   }
 
   setAmount(amount) {
     const validatedAmount = validate(amount, 'amount')
-    this.properties.amount = validatedAmount
+
+    if (!validatedAmount) {
+      this.properties.amount = getMarketDefaultAmount(this.properties.market)
+    } else {
+      this.properties.amount = validatedAmount
+    }
   }
 
   setTermInMonths(termInMonths) {
     const validatedTerm = validate(termInMonths, 'termInMonths')
     this.properties.termInMonths = validatedTerm
+  }
+
+  setMarket(market) {
+    const validatedMarket = validate(market, 'market')
+
+    this.properties.market = validatedMarket
   }
 
   get interest() {
@@ -108,11 +136,10 @@ export default class LoanCalculator {
       term -= 1
     }
 
-    // TODO: rounding on amount
     const unformatted = amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term
 
     return {
-      amount: formatMoney(unformatted),
+      value: formatMoney(unformatted),
       currency: this.currency
     }
   }
@@ -121,9 +148,8 @@ export default class LoanCalculator {
     const { amount, termInMonths } = this.properties
     const totalToPay = this.totalToPay
 
-    // TODO: rounding on amount
     return {
-      amount: formatMoney((totalToPay.amount - amount)) / termInMonths,
+      value: formatMoney((totalToPay.value - amount) / termInMonths),
       currency: this.currency
     }
   }
@@ -131,12 +157,15 @@ export default class LoanCalculator {
   get monthlyAmortisation() {
     const { amount, termInMonths } = this.properties
 
-    return formatMoney((amount / termInMonths))
+    return {
+      value: formatMoney((amount / termInMonths)),
+      currency: this.currency
+    }
   }
 
   get monthlyTotal() {
     return {
-      amount: formatMoney((this.monthlyAmortisation + this.monthlyFee.amount)),
+      value: formatMoney(Number(this.monthlyAmortisation.value + this.monthlyFee.value)),
       currency: this.currency
     }
   }
@@ -156,7 +185,7 @@ export default class LoanCalculator {
     }
   }
 
-  get getloanRange() {
+  get loanRange() {
     const { market } = this.properties
 
     switch(market) {
