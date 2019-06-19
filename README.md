@@ -23,7 +23,7 @@ import LoanCalculator from 'qred-loan-calculator'
 // all properties are optional
 const loanCalculator = new LoanCalculator({
   amount: 100000, // validated by loanCalculator.loanRange , default: depending on market { se: 100000, dk: 100000, fi: 10000, nl: 10000}
-  termInMonths: 6, // [6, 12 or 18], default: 6
+  termInMonths: 6, // [6, 12 or 18], default: 12
   market: 'dk' // supported markets ['se', 'dk', 'fi', 'nl'], default: 'se',
   firstMonthFree: false // Used for first month free offers. default: false
 })
