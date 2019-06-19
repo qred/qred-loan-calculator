@@ -18,9 +18,9 @@ describe('Given an instance of LoanCalculator', () => {
 
   describe('When I instatiate with DEFAULT values', () => {
     it('should return expected data', () => {
-      expect(lib.properties.amount).to.be.equal(50000)
+      expect(lib.properties.amount).to.be.equal(100000)
       expect(lib.properties.market).to.be.equal('se')
-      expect(lib.properties.termInMonths).to.be.equal(6)
+      expect(lib.properties.termInMonths).to.be.equal(12)
       expect(lib.properties.firstMonthFree).to.be.equal(false)
     })
 
@@ -43,9 +43,9 @@ describe('Given an instance of LoanCalculator', () => {
         amount: 'cheese'
       })
 
-      expect(badLib.properties.amount).to.be.equal(50000)
+      expect(badLib.properties.amount).to.be.equal(100000)
       expect(badLib.properties.market).to.be.equal('se')
-      expect(badLib.properties.termInMonths).to.be.equal(6)
+      expect(badLib.properties.termInMonths).to.be.equal(12)
       expect(badLib.properties.firstMonthFree).to.be.equal(false)
     })
   })
@@ -97,10 +97,10 @@ describe('Given an instance of LoanCalculator', () => {
   describe('When I want loan calculation estimates', () => {
     it('should return some expected values with DEFAULT values', () => {
       const expected = {
-        monthlyTotal: formatMoney(9308.33),
+        monthlyTotal: formatMoney(10083.33),
         monthlyAmortisation: formatMoney(8333.33),
-        monthlyFee: formatMoney(975),
-        totalToPay: formatMoney(55850)
+        monthlyFee: formatMoney(1750),
+        totalToPay: formatMoney(121000)
       }
 
       expect(lib.totalToPay.value).to.be.equal(expected.totalToPay)
@@ -111,17 +111,17 @@ describe('Given an instance of LoanCalculator', () => {
 
     it('should return some expected values when term in months is changed', () => {
       const expectedEighteen = {
-        monthlyTotal: formatMoney(3552.78),
-        monthlyAmortisation: formatMoney(2777.78),
-        monthlyFee: formatMoney(775),
-        totalToPay: formatMoney(63950)
+        monthlyTotal: formatMoney(7105.56),
+        monthlyAmortisation: formatMoney(5555.56),
+        monthlyFee: formatMoney(1550),
+        totalToPay: formatMoney(127900)
       }
 
       const expectedTwelve = {
-        monthlyTotal: formatMoney(5041.67),
-        monthlyAmortisation: formatMoney(4166.67),
-        monthlyFee: formatMoney(875),
-        totalToPay: formatMoney(60500)
+        monthlyTotal: formatMoney(10083.33),
+        monthlyAmortisation: formatMoney(8333.33),
+        monthlyFee: formatMoney(1750),
+        totalToPay: formatMoney(121000)
       }
 
       lib.setTermInMonths(18)
@@ -139,24 +139,24 @@ describe('Given an instance of LoanCalculator', () => {
 
     it('should return some expected values when amount is changed', () => {
       const expected100K = {
-        monthlyTotal: formatMoney(18616.67),
-        monthlyAmortisation: formatMoney(16666.67),
-        monthlyFee: formatMoney(1950),
-        totalToPay: formatMoney(111700)
+        monthlyTotal: formatMoney(10083.33),
+        monthlyAmortisation: formatMoney(8333.33),
+        monthlyFee: formatMoney(1750),
+        totalToPay: formatMoney(121000)
       }
 
       const expected250K = {
-        monthlyTotal: formatMoney(45866.67),
-        monthlyAmortisation: formatMoney(41666.67),
-        monthlyFee: formatMoney(4200),
-        totalToPay: formatMoney(275200)
+        monthlyTotal: formatMoney(24458.33),
+        monthlyAmortisation: formatMoney(20833.33),
+        monthlyFee: formatMoney(3625),
+        totalToPay: formatMoney(293500)
       }
 
       const expected320K = {
-        monthlyTotal: formatMoney(58583.33),
-        monthlyAmortisation: formatMoney(53333.33),
-        monthlyFee: formatMoney(5250),
-        totalToPay: formatMoney(351500)
+        monthlyTotal: formatMoney(31166.67),
+        monthlyAmortisation: formatMoney(26666.67),
+        monthlyFee: formatMoney(4500),
+        totalToPay: formatMoney(374000)
       }
 
       lib.setAmount(100000)
@@ -225,24 +225,24 @@ describe('Given an instance of LoanCalculator', () => {
 
     it('should return some expected DEFAULT values when market is changed', () => {
       const expectedDK = {
-        monthlyTotal: formatMoney(9308.33),
+        monthlyTotal: formatMoney(10083.33),
         monthlyAmortisation: formatMoney(8333.33),
-        monthlyFee: formatMoney(975),
-        totalToPay: formatMoney(55850)
+        monthlyFee: formatMoney(1750),
+        totalToPay: formatMoney(121000)
       }
 
       const expectedFI = {
-        monthlyTotal: formatMoney(930.83),
+        monthlyTotal: formatMoney(1008.33),
         monthlyAmortisation: formatMoney(833.33),
-        monthlyFee: formatMoney(97.50),
-        totalToPay: formatMoney(5585)
+        monthlyFee: formatMoney(175),
+        totalToPay: formatMoney(12100)
       }
 
       const expectedNL = {
-        monthlyTotal: formatMoney(930.83),
+        monthlyTotal: formatMoney(1008.33),
         monthlyAmortisation: formatMoney(833.33),
-        monthlyFee: formatMoney(97.50),
-        totalToPay: formatMoney(5585)
+        monthlyFee: formatMoney(175),
+        totalToPay: formatMoney(12100)
       }
 
       lib = new LoanCalculator({ market: 'dk' })

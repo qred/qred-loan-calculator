@@ -1,5 +1,5 @@
 const defaultProperties = {
-  termInMonths: 6,
+  termInMonths: 12,
   market: 'se',
   firstMonthFree: false
 }
@@ -7,13 +7,13 @@ const defaultProperties = {
 function getMarketDefaultAmount(market) {
   switch(market) {
     case 'nl':
-      return 5000
+      return 10000
     case 'dk':
-      return 50000
+      return 100000
     case 'fi':
-      return 5000
+      return 10000
     default:
-      return 50000
+      return 100000
   }
 }
 
