@@ -1,5 +1,5 @@
 const defaultProperties = {
-  termInMonths: 6,
+  termInMonths: 12,
   market: 'se',
   firstMonthFree: false
 }
@@ -7,13 +7,13 @@ const defaultProperties = {
 function getMarketDefaultAmount(market) {
   switch(market) {
     case 'nl':
-      return 5000
+      return 10000
     case 'dk':
-      return 50000
+      return 100000
     case 'fi':
-      return 5000
+      return 10000
     default:
-      return 50000
+      return 100000
   }
 }
 
@@ -51,7 +51,7 @@ function validate(value, field) {
         return null
       }
     case 'termInMonths':
-      if ([6, 9, 12].includes(Number(value))) {
+      if ([6, 12, 18].includes(Number(value))) {
         return value
       } else {
         return defaultProperties.termInMonths
@@ -109,20 +109,20 @@ export default class LoanCalculator {
   get interest() {
     const { termInMonths } = this.properties
 
-    if (termInMonths === 9) {
+    if (termInMonths === 18) {
       return {
-        interest: 1.9,
-        scalingRate: 1.45
+        interest: 1.55,
+        scalingRate: 1
       }
     } else if (termInMonths === 12) {
       return {
-        interest: 1.8,
-        scalingRate: 1.4
+        interest: 1.75,
+        scalingRate: 1.25
       }
     }
 
     return {
-      interest: 2,
+      interest: 1.95,
       scalingRate: 1.5
     }
   }
@@ -190,13 +190,13 @@ export default class LoanCalculator {
 
     switch(market) {
       case 'fi':
-        return { min: 1000, max: 50000, currency: this.currency }
+        return { min: 1000, max: 100000, currency: this.currency }
       case 'nl':
-        return { min: 1000, max: 50000, currency: this.currency }
+        return { min: 1000, max: 100000, currency: this.currency }
       case 'dk':
-        return { min: 10000, max: 250000, currency: this.currency }
+        return { min: 10000, max: 500000, currency: this.currency }
       default:
-        return { min: 10000, max: 500000,  currency: this.currency }
+        return { min: 10000, max: 1000000,  currency: this.currency }
     }
   }
 }

@@ -22,8 +22,8 @@ import LoanCalculator from 'qred-loan-calculator'
 // Instantiate qred-loan-calculator
 // all properties are optional
 const loanCalculator = new LoanCalculator({
-  amount: 50000, // validated by loanCalculator.loanRange , default: depending on market { se: 50000, dk: 50000, fi: 5000, nl: 5000}
-  termInMonths: 6, // [6, 9 or 12], default: 6
+  amount: 100000, // validated by loanCalculator.loanRange , default: depending on market { se: 100000, dk: 100000, fi: 10000, nl: 10000}
+  termInMonths: 6, // [6, 12 or 18], default: 12
   market: 'dk' // supported markets ['se', 'dk', 'fi', 'nl'], default: 'se',
   firstMonthFree: false // Used for first month free offers. default: false
 })
@@ -37,7 +37,7 @@ const monthlyTotal = loanCalculator.monthlyTotal
 // Get the total to pay of the loan  e.g: { value: 1000, currency: 'SEK'}
 const totalToPay = loanCalculator.totalToPay
 
-// Get  the depends on market get the e.g: { min: 10000, max: 500000, currency: 'SEK'}
+// Get  the depends on market get the e.g: { min: 10000, max: 1000000, currency: 'SEK'}
 const loanRange = loanCalculator.loanRange
 
 ```
@@ -98,7 +98,7 @@ Change the termInMonths of which fees are calculated
 
 ```
 const loanCalculator = new LoanCalculator()
-loanCalculator.setTermInMonths(12) // 6, 9 or 12
+loanCalculator.setTermInMonths(12) // 6, 12 or 18
 
 // loanCalculator.properties.termInMonths = 12
 
