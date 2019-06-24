@@ -111,18 +111,18 @@ export default class LoanCalculator {
 
     if (termInMonths === 18) {
       return {
-        interest: 1.55,
+        interest: 1.49,
         scalingRate: 1
       }
     } else if (termInMonths === 12) {
       return {
-        interest: 1.75,
+        interest: 1.66,
         scalingRate: 1.25
       }
     }
 
     return {
-      interest: 1.95,
+      interest: 1.99,
       scalingRate: 1.5
     }
   }
