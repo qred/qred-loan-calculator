@@ -135,7 +135,7 @@ export default class LoanCalculator {
     if (firstMonthFree) {
       term -= 1
     }
-    console.log(market)
+
     const unformatted = amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term
 
     return {
