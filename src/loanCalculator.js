@@ -136,8 +136,10 @@ export default class LoanCalculator {
       term -= 1
     }
     if (market === 'nl' || market === 'fi') {
-       unformatted = amount + Math.min(amount, 10000) * (interest / 100) * term + Math.max((amount - 10000), 0) * (scalingRate / 100) * term
+      console.log(market, '1')
+       unformatted = amount + Math.min(amount, 10000) * (interest / 100) * term + Math.max((amount - 13), 0) * (scalingRate / 100) * term
     } else {
+      console.log(market, '2')
        unformatted = amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term
     }
 
