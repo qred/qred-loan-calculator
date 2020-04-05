@@ -146,17 +146,17 @@ describe('Given an instance of LoanCalculator', () => {
       }
 
       const expected250K = {
-        monthlyTotal: formatMoney(24368.33),
+        monthlyTotal: formatMoney(24593.33),
         monthlyAmortisation: formatMoney(20833.33),
-        monthlyFee: formatMoney(3535),
-        totalToPay: formatMoney(292420)
+        monthlyFee: formatMoney(3760),
+        totalToPay: formatMoney(295120)
       }
 
       const expected320K = {
-        monthlyTotal: formatMoney(31076.67),
+        monthlyTotal: formatMoney(31406.67),
         monthlyAmortisation: formatMoney(26666.67),
-        monthlyFee: formatMoney(4410),
-        totalToPay: formatMoney(372920)
+        monthlyFee: formatMoney(4740),
+        totalToPay: formatMoney(376880)
       }
 
       lib.setAmount(100000)
@@ -187,10 +187,10 @@ describe('Given an instance of LoanCalculator', () => {
       }
 
       const expectedTwelve500K = {
-        monthlyTotal: formatMoney(48326.67),
+        monthlyTotal: formatMoney(48926.67),
         monthlyAmortisation: formatMoney(41666.67),
-        monthlyFee: formatMoney(6660),
-        totalToPay: formatMoney(579920)
+        monthlyFee: formatMoney(7260),
+        totalToPay: formatMoney(587120)
       }
 
       const expectedSix10K = {

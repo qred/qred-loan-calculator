@@ -131,13 +131,17 @@ export default class LoanCalculator {
     const { termInMonths, amount, firstMonthFree, market } = this.properties
     let term = termInMonths
     const { interest, scalingRate } = this.interest
-    
+    let unformatted = ''
+
     if (firstMonthFree) {
       term -= 1
     }
-
-    //const unformatted = amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term
-
+    if ( market === 'fi' || market === 'nl') {
+      unformatted = amount + Math.min(amount, 10000) * (interest / 100) * term + Math.max((amount - 10000), 0) * (scalingRate / 100) * term
+    } else {
+       unformatted = amount + Math.min(amount, 100000) * (interest / 100) * term + Math.max((amount - 100000), 0) * (scalingRate / 100) * term
+    }
+    
     return {
       value: formatMoney(unformatted),
       currency: this.currency
